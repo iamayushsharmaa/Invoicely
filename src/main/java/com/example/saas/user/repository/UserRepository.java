@@ -1,4 +1,4 @@
-package com.example.saas;
+package com.example.saas.user.repository;
 
 
 import org.springframework.stereotype.Repository;
