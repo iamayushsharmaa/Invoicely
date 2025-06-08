@@ -1,7 +1,6 @@
 package com.example.saas.user.service;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -19,7 +18,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY = "e3f1a7c9b4d6821f5e09c3d7a8b4f12c9e7d6a5b3c2f1e0d4b8a9c7d6e5f3a2b";
+    private static final String SECRET_KEY = "e3f1a7c9b4d6821f5e09c3d7a8b4f12c9e7d6a5b3c2f1e0d4b8a9c7d6e5f3a2b";
 
     public String extractUserEmail(String token) {
         return extractClaims(token, Claims::getSubject);
@@ -39,11 +38,11 @@ public class JwtService {
                 .getBody();
     }
 
-    public  String generateToken(UserDetails userDetails){
-        return  generateToken(new HashMap<>(), userDetails);
+    public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
     }
 
-    public String generateToken(Map<String, Objects> extraClaims, UserDetails userDetails){
+    public String generateToken(Map<String, Objects> extraClaims, UserDetails userDetails) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -62,7 +61,7 @@ public class JwtService {
         return extractExpiration(token).before(new Date());
     }
 
-    private Date extractExpiration(String token){
+    private Date extractExpiration(String token) {
         return extractClaims(token, Claims::getExpiration);
     }
 
