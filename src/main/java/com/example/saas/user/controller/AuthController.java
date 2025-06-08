@@ -1,5 +1,6 @@
 package com.example.saas.user.controller;
 
+import com.example.saas.user.model.AuthenticationRequest;
 import com.example.saas.user.model.AuthenticationResponse;
 import com.example.saas.user.model.RegisterRequest;
 import com.example.saas.user.service.AuthenticationService;
@@ -23,7 +24,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody RegisterRequest request
+            @RequestBody AuthenticationRequest request
     ) {
         return ResponseEntity.ok(service.authenticate(request));
     }

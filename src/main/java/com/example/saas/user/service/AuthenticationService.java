@@ -1,6 +1,7 @@
 package com.example.saas.user.service;
 
 import com.example.saas.user.entity.User;
+import com.example.saas.user.model.AuthenticationRequest;
 import com.example.saas.user.model.AuthenticationResponse;
 import com.example.saas.user.model.RegisterRequest;
 import com.example.saas.user.repository.UserRepository;
@@ -33,7 +34,7 @@ public class AuthenticationService {
                 .build();
     }
 
-    public AuthenticationResponse authenticate(RegisterRequest request) {
+    public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
