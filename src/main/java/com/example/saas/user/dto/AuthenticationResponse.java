@@ -1,4 +1,4 @@
-package com.example.saas.user.model;
+package com.example.saas.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

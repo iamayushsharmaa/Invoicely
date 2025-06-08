@@ -1,9 +1,9 @@
 package com.example.saas.user.service;
 
 import com.example.saas.user.entity.User;
-import com.example.saas.user.model.AuthenticationRequest;
-import com.example.saas.user.model.AuthenticationResponse;
-import com.example.saas.user.model.RegisterRequest;
+import com.example.saas.user.dto.AuthenticationRequest;
+import com.example.saas.user.dto.AuthenticationResponse;
+import com.example.saas.user.dto.RegisterRequest;
 import com.example.saas.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
