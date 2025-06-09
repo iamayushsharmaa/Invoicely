@@ -13,7 +13,7 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
 
-COPY --from=build /app/target/invoicely-0.0.1-SNAPSHOT.jar invoicely.jar
+COPY --from=build /app/target/invoicely.jar invoicely.jar
 
 EXPOSE 8080
 
