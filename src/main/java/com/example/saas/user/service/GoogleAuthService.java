@@ -20,7 +20,7 @@ public class GoogleAuthService {
     private final UserRepository repository;
     private final JwtService jwtService;
 
-    @Value("${spring.security.oauth2.registration.google.client-id}")
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
 
     public String verifyTokenAndLogin(String idTokenString) throws Exception {
