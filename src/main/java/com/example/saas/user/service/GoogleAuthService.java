@@ -5,9 +5,9 @@ import com.example.saas.user.repository.UserRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.init.Jackson2RepositoryPopulatorFactoryBean;
-import org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +20,13 @@ public class GoogleAuthService {
     private final UserRepository repository;
     private final JwtService jwtService;
 
+    @Value("${google.client-id}")
+    private String googleClientId;
+
     public String verifyTokenAndLogin(String idTokenString) throws Exception {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
-                .Builder(new NetHttpTransport(), new JacksonFactory())
-                .setAudience(List.of(""))
+                .Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance())
+                .setAudience(List.of(googleClientId))
                 .build();
 
         GoogleIdToken idToken = verifier.verify(idTokenString);
