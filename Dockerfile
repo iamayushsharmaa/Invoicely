@@ -1,8 +1,20 @@
-FROM maven:3.9.5-openjdk-21 AS build
-COPY . .
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+
+WORKDIR /app
+
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY src ./src
+
 RUN mvn clean package -DskipTests
 
-FROM openjdk:21-slim
-COPY --from=build /target/invoicely-0.0.1-SNAPSHOT.jar invoicely.jar
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /app
+
+COPY --from=build /app/target/invoicely-0.0.1-SNAPSHOT.jar invoicely.jar
+
 EXPOSE 8080
+
 ENTRYPOINT ["java", "-jar", "invoicely.jar"]
