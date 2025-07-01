@@ -12,6 +12,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController("/api")
 @RequiredArgsConstructor
@@ -36,10 +37,20 @@ public class InovicesController {
         return ResponseEntity.ok(invoices);
     }
 
-    @GetMapping("/invoices/{id}")
-    public ResponseEntity<InvoiceResponseDto> getInvoice(@PathVariable Long id) {
-
+    @GetMapping("/invoices/client/{clientId}")
+    public ResponseEntity<List<InvoiceResponseDto>> getInvoicesByClient(
+            @PathVariable UUID clientId,
+            @AuthenticationPrincipal User user
+    ) {
+        List<InvoiceResponseDto> clientInvoices = invoiceService.getInvoicesByClient(clientId, user.getId());
+        return new ResponseEntity<>(clientInvoices, HttpStatus.OK);
     }
+
+
+//    @GetMapping("/invoices/{invoiceId}")
+//    public ResponseEntity<InvoiceResponseDto> getInvoice(@PathVariable UUID invoiceId, @AuthenticationPrincipal User user) {
+//
+//    }
 
     @GetMapping("/invoices")
     public void filterInvoices() {

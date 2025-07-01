@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +52,18 @@ public class InvoiceService {
         return invoiceMapper.toResponseDto(invoice);
     }
 
-    public List<InvoiceResponseDto> getInvoicesByUser(UUID id) {
+    public List<InvoiceResponseDto> getInvoicesByUser(UUID userId) {
+        List<Invoice> invoices = invoiceRepository.findAllByUserId(userId);
+        return invoices.stream()
+                .map(invoiceMapper::toResponseDto)
+                .collect(Collectors.toList());
+    }
 
+    public List<InvoiceResponseDto> getInvoicesByClient(UUID clientId, UUID userId) {
+        List<Invoice> invoices = invoiceRepository.findByClientIdAndUserId(clientId, userId);
+
+        return invoices.stream()
+                .map(invoiceMapper::toResponseDto)
+                .collect(Collectors.toList());
     }
 }
