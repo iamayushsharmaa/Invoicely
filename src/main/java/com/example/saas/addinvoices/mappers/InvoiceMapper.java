@@ -1,0 +1,81 @@
+package com.example.saas.addinvoices.mappers;
+
+import com.example.saas.addinvoices.dto.InvoiceItemResponseDto;
+import com.example.saas.addinvoices.dto.InvoiceRequestDto;
+import com.example.saas.addinvoices.dto.InvoiceResponseDto;
+import com.example.saas.addinvoices.models.Invoice;
+import com.example.saas.addinvoices.models.InvoiceItem;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+@Component
+public class InvoiceMapper {
+
+    public Invoice toEntity(InvoiceRequestDto dto, UUID userId, UUID clientId) {
+        List<InvoiceItem> items = dto.getItems().stream()
+                .map(itemDto -> {
+                    BigDecimal total = itemDto.getPrice().multiply(BigDecimal.valueOf(itemDto.getQuantity()));
+                    return InvoiceItem.builder()
+                            .description(itemDto.getDescription())
+                            .quantity(itemDto.getQuantity())
+                            .price(itemDto.getPrice())
+                            .total(total)
+                            .build();
+                })
+                .collect(Collectors.toList());
+
+        BigDecimal totalAmount = items.stream()
+                .map(InvoiceItem::getTotal)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        Invoice invoice = Invoice.builder()
+                .userId(userId)
+                .clientId(clientId)
+                .invoiceNumber(dto.getInvoiceNumber())
+                .invoiceDate(dto.getInvoiceDate())
+                .dueDate(dto.getDueDate())
+                .billingFrom(dto.getBillingFrom())
+                .billingTo(dto.getBillingTo())
+                .notes(dto.getNotes())
+                .status(dto.getStatus())
+                .totalAmount(totalAmount)
+                .items(new ArrayList<>()) // set below
+                .build();
+
+        // Set parent invoice reference in items
+        items.forEach(item -> item.setInvoice(invoice));
+        invoice.setItems(items);
+
+        return invoice;
+    }
+
+    public InvoiceResponseDto toResponseDto(Invoice invoice) {
+        List<InvoiceItemResponseDto> items = invoice.getItems().stream()
+                .map(item -> InvoiceItemResponseDto.builder()
+                        .description(item.getDescription())
+                        .quantity(item.getQuantity())
+                        .price(item.getPrice())
+                        .total(item.getTotal())
+                        .build())
+                .collect(Collectors.toList());
+
+        return InvoiceResponseDto.builder()
+                .id(invoice.getId())
+                .clientId(invoice.getClientId())
+                .invoiceNumber(invoice.getInvoiceNumber())
+                .invoiceDate(invoice.getInvoiceDate())
+                .dueDate(invoice.getDueDate())
+                .billingFrom(invoice.getBillingFrom())
+                .billingTo(invoice.getBillingTo())
+                .notes(invoice.getNotes())
+                .status(invoice.getStatus())
+                .totalAmount(invoice.getTotalAmount())
+                .items(items)
+                .build();
+    }
+}

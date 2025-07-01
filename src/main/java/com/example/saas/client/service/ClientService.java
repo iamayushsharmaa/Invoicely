@@ -1,30 +1,53 @@
 package com.example.saas.client.service;
 
-import com.example.saas.client.dto.ClientDto;
+import com.example.saas.client.dto.ClientRequestDto;
+import com.example.saas.client.dto.ClientResponseDto;
+import com.example.saas.client.mapper.ClientMapper;
 import com.example.saas.client.models.Client;
-import com.example.saas.client.repository.ClientReposiotry;
+import com.example.saas.client.repository.ClientRepository;
+import com.example.saas.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class ClientService {
 
-    private final ClientReposiotry clientReposiotry;
+    private final ClientRepository clientRepository;
+    private final ClientMapper clientMapper;
 
-    public Client createClient(ClientDto clientRequest, UUID userId) {
-        Client client = Client.builder()
-                .userId(userId)
-                .name(clientRequest.getName())
-                .email(clientRequest.getEmail())
-                .phone(clientRequest.getPhone())
-                .address(clientRequest.getAddress())
-                .createdAt(LocalDateTime.now())
-                .build();
+    public ClientResponseDto createClient(ClientRequestDto dto, UUID userId) {
+        Client client = clientMapper.toEntity(dto, userId);
+        return clientMapper.toResponse(clientRepository.save(client));
+    }
 
-        return clientReposiotry.save(client);
+    public List<ClientResponseDto> getClientsByUser(UUID userId) {
+        return clientRepository.findAllByUserId(userId)
+                .stream()
+                .map(clientMapper::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public ClientResponseDto getClientById(UUID clientId, UUID userId) {
+        Client client = clientRepository.findByIdAndUserId(clientId, userId)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
+        return clientMapper.toResponse(client);
+    }
+
+    public ClientResponseDto updateClient(UUID clientId, ClientRequestDto dto, UUID userId) {
+        Client client = clientRepository.findByIdAndUserId(clientId, userId)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
+        clientMapper.updateEntity(client, dto);
+        return clientMapper.toResponse(clientRepository.save(client));
+    }
+
+    public void deleteClient(UUID clientId, UUID userId) {
+        Client client = clientRepository.findByIdAndUserId(clientId, userId)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
+        clientRepository.delete(client);
     }
 }

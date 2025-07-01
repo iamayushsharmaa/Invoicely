@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ClientReposiotry extends JpaRepository<Client, Integer> {
+public interface ClientRepository extends JpaRepository<Client, Integer> {
 
-    List<Client> findByUserId(UUID userId);
+    List<Client> findAllByUserId(UUID userId);
 
+    Optional<Client> findByIdAndUserId(UUID clientId, UUID userId);
 }
