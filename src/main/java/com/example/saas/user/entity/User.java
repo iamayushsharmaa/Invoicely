@@ -8,9 +8,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+enum SubscriptionStatus {
+    FREE, PREMIUM, EXPIRED
+}
 
 @Data
 @Builder
@@ -25,6 +30,7 @@ public class User implements UserDetails {
     private String name;
     private String email;
     private String password;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
