@@ -2,7 +2,6 @@ package com.example.saas.addinvoices.controller;
 
 import com.example.saas.addinvoices.dto.InvoiceRequestDto;
 import com.example.saas.addinvoices.dto.InvoiceResponseDto;
-import com.example.saas.addinvoices.models.Invoice;
 import com.example.saas.addinvoices.service.InvoiceService;
 import com.example.saas.user.entity.User;
 import lombok.AllArgsConstructor;
@@ -74,6 +73,15 @@ public class InovicesController {
     ) {
         InvoiceResponseDto updated = invoiceService.updateInvoice(invoiceId, dto, user.getId());
         return ResponseEntity.ok(updated);
+    }
+
+    @PatchMapping("/invoices/{invoiceId}/mark-paid")
+    public ResponseEntity<InvoiceResponseDto> markInvoiceAsPaid(
+            @PathVariable UUID invoiceId,
+            @AuthenticationPrincipal User user
+    ) {
+        InvoiceResponseDto updatedInvoice = invoiceService.markAsPaid(invoiceId, user.getId());
+        return ResponseEntity.ok(updatedInvoice);
     }
 
 }

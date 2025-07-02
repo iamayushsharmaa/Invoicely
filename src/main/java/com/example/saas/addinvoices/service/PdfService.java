@@ -19,12 +19,14 @@ public class PdfService {
 
     final TemplateEngine templateEngine;
 
-    public byte[] generateInvoicePdf(InvoiceResponseDto invoice) {
+    public byte[] generateInvoicePdf(InvoiceResponseDto invoice, String templateName) throws IOException {
+
+        String templateToUse = "invoice-template-" + (templateName != null ? templateName : "default");
 
         Context context = new Context();
         context.setVariable("invoice", invoice);
 
-        String html = templateEngine.process("invoice-template", context);
+        String html = templateEngine.process(templateToUse, context);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PdfRendererBuilder builder = new PdfRendererBuilder();
@@ -32,11 +34,7 @@ public class PdfService {
         builder.useFastMode();
         builder.withHtmlContent(html, null);
         builder.toStream(outputStream);
-        try {
-            builder.run();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        builder.run();
 
         return outputStream.toByteArray();
     }

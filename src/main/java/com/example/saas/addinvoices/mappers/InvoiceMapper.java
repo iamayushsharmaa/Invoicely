@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 @Component
 public class InvoiceMapper {
 
@@ -29,9 +28,13 @@ public class InvoiceMapper {
                 })
                 .collect(Collectors.toList());
 
-        BigDecimal totalAmount = items.stream()
+        BigDecimal subTotal = items.stream()
                 .map(InvoiceItem::getTotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal discount = dto.getDiscount() != null ? dto.getDiscount() : BigDecimal.ZERO;
+        BigDecimal tax = dto.getTax() != null ? dto.getTax() : BigDecimal.ZERO;
+        BigDecimal totalAmount = subTotal.subtract(discount).add(tax);
 
         Invoice invoice = Invoice.builder()
                 .userId(userId)
@@ -42,12 +45,17 @@ public class InvoiceMapper {
                 .billingFrom(dto.getBillingFrom())
                 .billingTo(dto.getBillingTo())
                 .notes(dto.getNotes())
-                .status(dto.getStatus())
+                .currency(dto.getCurrency() != null ? dto.getCurrency() : "INR")
+                .discount(discount)
+                .tax(tax)
+                .subTotal(subTotal)
                 .totalAmount(totalAmount)
+                .status(dto.getStatus())
+                .paid(false) // default to false
                 .items(new ArrayList<>()) // set below
                 .build();
 
-        // Set parent invoice reference in items
+        // Link invoice to items
         items.forEach(item -> item.setInvoice(invoice));
         invoice.setItems(items);
 
@@ -74,7 +82,13 @@ public class InvoiceMapper {
                 .billingTo(invoice.getBillingTo())
                 .notes(invoice.getNotes())
                 .status(invoice.getStatus())
+                .currency(invoice.getCurrency())
+                .subTotal(invoice.getSubTotal())
+                .discount(invoice.getDiscount())
+                .tax(invoice.getTax())
                 .totalAmount(invoice.getTotalAmount())
+                .paid(invoice.getPaid())
+                .paymentDate(invoice.getPaymentDate())
                 .items(items)
                 .build();
     }

@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
@@ -27,11 +28,12 @@ public class PdfController {
     @PostMapping("/invoices/{invoiceId}/pdf")
     public ResponseEntity<byte[]> generatePdf(
             @PathVariable UUID invoiceId,
+            @RequestParam(defaultValue = "default") String template,
             @AuthenticationPrincipal User user
     ) {
         InvoiceResponseDto invoice = invoiceService.getInvoiceById(invoiceId, user.getId());
 
-        byte[] pdfBytes = pdfService.generateInvoicePdf(invoice);
+        byte[] pdfBytes = pdfService.generateInvoicePdf(invoice, template);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION,

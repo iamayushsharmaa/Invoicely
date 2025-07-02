@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,7 +38,18 @@ public class Invoice {
     private String notes;
     private String status;
 
+    private BigDecimal subTotal;
+    private BigDecimal discount;
+    private BigDecimal tax;
     private BigDecimal totalAmount;
+
+    private String currency;
+    private Boolean paid;
+    private LocalDateTime paymentDate;
+    private String paymentMethod;
+
+    private String logoUrl;
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<InvoiceItem> items;
