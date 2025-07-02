@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Invoice</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Open Sans', sans-serif;
+            padding: 30px;
+            font-size: 14px;
+            background: #e6f3fa;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 25px;
+            border-left: 5px solid #d32f2f;
+        }
+        .header {
+            margin-bottom: 20px;
+        }
+        .logo {
+            max-width: 100px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+        .title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #d32f2f;
+            margin-bottom: 20px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #d32f2f;
+        }
+        .table th {
+            background: #d32f2f;
+            color: #fff;
+            font-weight: 600;
+        }
+        .table td {
+            background: #f9f9f9;
+        }
+        .summary {
+            text-align: right;
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <img th:if="${invoice.logoUrl != null}" th:src="${invoice.logoUrl}" alt="Company Logo" class="logo"/>
+        <div class="title">Invoice # [[${invoice.invoiceNumber}]]</div>
+    </div>
+    <div class="grid">
+        <div>
+            <p><strong>From:</strong><br/>[[${invoice.billingFrom}]]</p>
+            <p><strong>To:</strong><br/>[[${invoice.billingTo}]]</p>
+        </div>
+        <div>
+            <p>Date: [[${invoice.invoiceDate}]]<br/>Due: [[${invoice.dueDate}]]</p>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Description</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${invoice.items}">
+            <td th:text="${item.description}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.total}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <p>Total: [[${invoice.totalAmount}]]</p>
+        <p>Status: [[${invoice.status}]]</p>
+    </div>
+</div>
+</body>
+</html>

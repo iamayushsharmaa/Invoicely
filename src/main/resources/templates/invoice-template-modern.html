@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Invoice</title>
+  <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: #f9f9f9;
+        color: #444;
+        padding: 40px;
+    }
+    .header {
+        background: #4A90E2;
+        color: white;
+        padding: 20px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .header-content {
+        flex-grow: 1;
+    }
+    .logo {
+        max-width: 100px;
+        height: auto;
+        margin-right: 20px;
+    }
+    .section {
+        margin-top: 20px;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .table td, .table th {
+        border: 1px solid #ddd;
+        padding: 10px;
+    }
+    .table th {
+        background: #f0f0f0;
+    }
+    .footer {
+        text-align: right;
+        margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+<div class="header">
+  <img th:if="${invoice.logoUrl != null}" th:src="${invoice.logoUrl}" alt="Company Logo" class="logo"/>
+  <div class="header-content">
+    <h2>Invoice #[[${invoice.invoiceNumber}]]</h2>
+    <p>Due: [[${invoice.dueDate}]]</p>
+  </div>
+</div>
+
+<div class="section">
+  <strong>From:</strong> [[${invoice.billingFrom}]]<br/>
+  <strong>To:</strong> [[${invoice.billingTo}]]
+</div>
+
+<div class="section">
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Description</th>
+      <th>Qty</th>
+      <th>Price</th>
+      <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${invoice.items}">
+      <td th:text="${item.description}"></td>
+      <td th:text="${item.quantity}"></td>
+      <td th:text="${item.price}"></td>
+      <td th:text="${item.total}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <p><strong>Total: [[${invoice.totalAmount}]]</strong></p>
+  <p>Status: [[${invoice.status}]]</p>
+</div>
+</body>
+</html>

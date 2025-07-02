@@ -87,6 +87,7 @@ public class InvoiceService {
         invoice.setNotes(dto.getNotes());
         invoice.setStatus(dto.getStatus());
         invoice.setCurrency(dto.getCurrency());
+        invoice.setLogoUrl(dto.getLogoUrl());
         invoice.setDiscount(dto.getDiscount() != null ? dto.getDiscount() : BigDecimal.ZERO);
         invoice.setTax(dto.getTax() != null ? dto.getTax() : BigDecimal.ZERO);
 

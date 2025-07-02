@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -30,7 +31,7 @@ public class PdfController {
             @PathVariable UUID invoiceId,
             @RequestParam(defaultValue = "default") String template,
             @AuthenticationPrincipal User user
-    ) {
+    ) throws IOException {
         InvoiceResponseDto invoice = invoiceService.getInvoiceById(invoiceId, user.getId());
 
         byte[] pdfBytes = pdfService.generateInvoicePdf(invoice, template);

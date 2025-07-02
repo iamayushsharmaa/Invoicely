@@ -4,6 +4,7 @@ import com.example.saas.client.dto.ClientRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.annotations.processing.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class InvoiceRequestDto {
     private BigDecimal discount;
     private BigDecimal tax;
     private String currency;
-
+    private String logoUrl;
     private List<InvoiceItemDto> items;
 
     private BigDecimal subTotal;

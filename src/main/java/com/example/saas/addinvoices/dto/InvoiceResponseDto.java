@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
+
 @Data
 @Builder
 public class InvoiceResponseDto {
@@ -28,6 +29,7 @@ public class InvoiceResponseDto {
     private BigDecimal tax;
     private BigDecimal totalAmount;
 
+    private String logoUrl;
     private String currency;
     private Boolean paid;
     private LocalDateTime paymentDate;

@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+
 @Component
 public class InvoiceMapper {
 
@@ -51,11 +53,11 @@ public class InvoiceMapper {
                 .subTotal(subTotal)
                 .totalAmount(totalAmount)
                 .status(dto.getStatus())
-                .paid(false) // default to false
-                .items(new ArrayList<>()) // set below
+                .paid(false)
+                .items(items)
+                .logoUrl(dto.getLogoUrl())
                 .build();
 
-        // Link invoice to items
         items.forEach(item -> item.setInvoice(invoice));
         invoice.setItems(items);
 
@@ -88,6 +90,7 @@ public class InvoiceMapper {
                 .tax(invoice.getTax())
                 .totalAmount(invoice.getTotalAmount())
                 .paid(invoice.getPaid())
+                .logoUrl(invoice.getLogoUrl())
                 .paymentDate(invoice.getPaymentDate())
                 .items(items)
                 .build();
