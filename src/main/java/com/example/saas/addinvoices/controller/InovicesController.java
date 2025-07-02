@@ -47,10 +47,34 @@ public class InovicesController {
     }
 
 
-//    @GetMapping("/invoices/{invoiceId}")
-//    public ResponseEntity<InvoiceResponseDto> getInvoice(@PathVariable UUID invoiceId, @AuthenticationPrincipal User user) {
-//
-//    }
+    @GetMapping("/invoices/{invoiceId}")
+    public ResponseEntity<InvoiceResponseDto> getInvoice(
+            @PathVariable UUID invoiceId,
+            @AuthenticationPrincipal User user
+    ) {
+        InvoiceResponseDto invoice = invoiceService.getInvoiceById(invoiceId, user.getId());
+        return new ResponseEntity<>(invoice, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/invoices/{invoiceId}")
+    public ResponseEntity<Void> deleteInvoice(
+            @PathVariable UUID invoiceId,
+            @AuthenticationPrincipal User user
+    ) {
+        invoiceService.deleteInvoice(invoiceId, user.getId());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/invoices/{invoiceId}")
+    public ResponseEntity<InvoiceResponseDto> updateInvoice(
+            @PathVariable UUID invoiceId,
+            @RequestBody InvoiceRequestDto dto,
+            @AuthenticationPrincipal User user
+    ) {
+        InvoiceResponseDto updated = invoiceService.updateInvoice(invoiceId, dto, user.getId());
+        return ResponseEntity.ok(updated);
+    }
 
     @GetMapping("/invoices")
     public void filterInvoices() {
