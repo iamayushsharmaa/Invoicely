@@ -5,6 +5,7 @@ import com.example.saas.addinvoices.dto.InvoiceResponseDto;
 import com.example.saas.addinvoices.models.Invoice;
 import com.example.saas.addinvoices.service.InvoiceService;
 import com.example.saas.user.entity.User;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 @RestController("/api")
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class InovicesController {
 
     private final InvoiceService invoiceService;
@@ -46,7 +48,6 @@ public class InovicesController {
         return new ResponseEntity<>(clientInvoices, HttpStatus.OK);
     }
 
-
     @GetMapping("/invoices/{invoiceId}")
     public ResponseEntity<InvoiceResponseDto> getInvoice(
             @PathVariable UUID invoiceId,
@@ -55,7 +56,6 @@ public class InovicesController {
         InvoiceResponseDto invoice = invoiceService.getInvoiceById(invoiceId, user.getId());
         return new ResponseEntity<>(invoice, HttpStatus.OK);
     }
-
 
     @DeleteMapping("/invoices/{invoiceId}")
     public ResponseEntity<Void> deleteInvoice(
@@ -76,24 +76,4 @@ public class InovicesController {
         return ResponseEntity.ok(updated);
     }
 
-    @GetMapping("/invoices")
-    public void filterInvoices() {
-
-    }
-
-
-    @GetMapping("/invoices/{id}/pdf")
-    public void generateInvoicePdf(@PathVariable Long id) {
-
-    }
-
-    @GetMapping("/invoices/{id}/send-email")
-    public void sendInvoiceEmail() {
-
-    }
-
-    @PutMapping("/invoices/{id}/status")
-    public void updateInvoiceStatus() {
-
-    }
 }
