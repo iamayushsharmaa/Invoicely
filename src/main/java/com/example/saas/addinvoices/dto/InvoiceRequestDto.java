@@ -2,6 +2,7 @@ package com.example.saas.addinvoices.dto;
 
 import com.example.saas.client.dto.ClientRequestDto;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.processing.Pattern;
@@ -12,8 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@RequiredArgsConstructor
-@AllArgsConstructor
+@Builder
 public class InvoiceRequestDto {
     private UUID clientId;
     private ClientRequestDto client;

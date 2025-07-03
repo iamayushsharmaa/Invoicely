@@ -12,7 +12,6 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class SubscriptionService {
 
     private final UserSubscriptionRepository subscriptionRepository;

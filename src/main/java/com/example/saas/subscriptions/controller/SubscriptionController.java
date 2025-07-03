@@ -3,7 +3,6 @@ package com.example.saas.subscriptions.controller;
 import com.example.saas.subscriptions.dto.IapVerificationRequest;
 import com.example.saas.subscriptions.services.SubscriptionService;
 import com.example.saas.user.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@AllArgsConstructor
 @RequestMapping("/api/v1/subscription")
 public class SubscriptionController {
 

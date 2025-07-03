@@ -1,10 +1,9 @@
 package com.example.saas.user.controller;
 
-import com.example.saas.user.dto.AuthenticationRequest;
-import com.example.saas.user.dto.AuthenticationResponse;
-import com.example.saas.user.dto.GoogleSignInRequest;
-import com.example.saas.user.dto.RegisterRequest;
+import com.example.saas.user.dto.*;
+import com.example.saas.user.repository.PasswordResetTokenRepository;
 import com.example.saas.user.service.AuthenticationService;
+import com.example.saas.user.service.ForgetPasswordService;
 import com.example.saas.user.service.GoogleAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,7 @@ public class AuthController {
 
     private final AuthenticationService service;
     private final GoogleAuthService googleAuthService;
+    private final ForgetPasswordService forgetPasswordService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -53,4 +53,25 @@ public class AuthController {
             );
         }
     }
+
+    @PostMapping("/forget-password")
+    public ResponseEntity<String> forgetPassoword(@RequestBody ForgetPasswordRequest request) {
+        try {
+            forgetPasswordService.initiateReset(request.getEmail());
+            return ResponseEntity.ok("Password reset link sent to email.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(ResetPasswordRequest request) {
+        try {
+            forgetPasswordService.resetPassword(request.getToken(), request.getNewPassword());
+            return ResponseEntity.ok("Password successfully reset.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 }

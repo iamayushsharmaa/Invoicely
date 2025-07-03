@@ -14,4 +14,7 @@ public interface ClientRepository extends JpaRepository<Client, UUID> {
     List<Client> findAllByUserId(UUID userId);
 
     Optional<Client> findByIdAndUserId(UUID clientId, UUID userId);
+
+    void deleteAllByUserId(UUID userId);
+
 }

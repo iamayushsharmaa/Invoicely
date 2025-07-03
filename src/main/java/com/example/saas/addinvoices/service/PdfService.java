@@ -14,7 +14,6 @@ import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class PdfService {
 
     final TemplateEngine templateEngine;

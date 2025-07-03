@@ -15,4 +15,6 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
     List<Invoice> findByClientIdAndUserId(UUID clientId, UUID userId);
 
     Optional<Invoice> findByIdAndUserId(UUID invoiceId, UUID userId);
+
+    void deleteAllByUserId(UUID userId);
 }

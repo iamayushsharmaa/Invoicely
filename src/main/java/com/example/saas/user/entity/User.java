@@ -13,16 +13,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-enum SubscriptionStatus {
-    FREE, PREMIUM, EXPIRED
-}
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +27,9 @@ public class User implements UserDetails {
     private String name;
     private String email;
     private String password;
+
+    @Column(name = "password_updated_at")
+    private LocalDateTime passwordUpdatedAt;
 
 
     @Override
@@ -67,3 +67,4 @@ public class User implements UserDetails {
         return true;
     }
 }
+

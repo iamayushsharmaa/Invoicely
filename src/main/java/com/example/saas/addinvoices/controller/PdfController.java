@@ -18,7 +18,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class PdfController {
 
     private final InvoiceService invoiceService;

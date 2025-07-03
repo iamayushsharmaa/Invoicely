@@ -22,7 +22,6 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class EmailController {
 
     private final EmailService emailService;

@@ -16,7 +16,6 @@ import java.util.UUID;
 
 @RestController("/api/v1")
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class InovicesController {
 
     private final InvoiceService invoiceService;

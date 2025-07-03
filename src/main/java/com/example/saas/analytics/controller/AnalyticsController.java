@@ -18,7 +18,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/analytics")
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class AnalyticsController {
 
     private final AnalyticsService analyticsService;
