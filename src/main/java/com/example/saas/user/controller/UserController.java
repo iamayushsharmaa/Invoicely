@@ -1,6 +1,8 @@
 package com.example.saas.user.controller;
 
 import com.example.saas.user.dto.ChangePasswordRequest;
+import com.example.saas.user.dto.UpdateProfileRequest;
+import com.example.saas.user.dto.UserProfileResponse;
 import com.example.saas.user.entity.User;
 import com.example.saas.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,30 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("/profile")
+    public ResponseEntity<UserProfileResponse> getProfile(
+            @AuthenticationPrincipal User user
+    ) {
+        try {
+            return ResponseEntity.ok(userService.getProfile(user.getId()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @PutMapping("/profile")
+    public ResponseEntity<UserProfileResponse> updateProfile(
+            @RequestBody UpdateProfileRequest request,
+            @AuthenticationPrincipal User user
+    ) {
+        try {
+            return ResponseEntity.ok(userService.updateProfile(user.getId(), request));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(

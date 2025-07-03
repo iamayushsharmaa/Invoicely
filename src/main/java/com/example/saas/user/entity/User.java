@@ -26,6 +26,8 @@ public class User implements UserDetails {
     private UUID id;
     private String name;
     private String email;
+    private String phone;
+    private String profileImageUrl;
     private String password;
 
     @Column(name = "password_updated_at")

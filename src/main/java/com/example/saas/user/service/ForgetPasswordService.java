@@ -23,7 +23,6 @@ public class ForgetPasswordService {
     private final JavaMailSender mailSender;
     private final PasswordEncoder passwordEncoder;
 
-
     public void initiateReset(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
@@ -68,6 +67,4 @@ public class ForgetPasswordService {
         userRepository.save(user);
         tokenRepository.delete(resetToken);
     }
-
-
 }

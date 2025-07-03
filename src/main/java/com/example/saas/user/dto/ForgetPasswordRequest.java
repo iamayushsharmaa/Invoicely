@@ -6,6 +6,5 @@ import lombok.Data;
 @Data
 @Builder
 public class ForgetPasswordRequest {
-
     String email;
 }
