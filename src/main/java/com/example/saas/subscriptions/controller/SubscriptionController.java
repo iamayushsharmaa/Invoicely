@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @AllArgsConstructor
-@RequestMapping("/api/subscription")
+@RequestMapping("/api/v1/subscription")
 public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;

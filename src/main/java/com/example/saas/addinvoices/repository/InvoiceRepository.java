@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
+public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
     List<Invoice> findAllByUserId(UUID userId);
 
     List<Invoice> findByClientIdAndUserId(UUID clientId, UUID userId);

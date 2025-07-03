@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RestController("/api")
+@RestController("/api/v1")
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class InovicesController {
