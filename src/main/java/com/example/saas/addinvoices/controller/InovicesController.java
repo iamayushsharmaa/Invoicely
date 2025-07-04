@@ -4,6 +4,7 @@ import com.example.saas.addinvoices.dto.InvoiceRequestDto;
 import com.example.saas.addinvoices.dto.InvoiceResponseDto;
 import com.example.saas.addinvoices.service.InvoiceService;
 import com.example.saas.user.entity.User;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ public class InovicesController {
 
     @PostMapping("/invoices")
     public ResponseEntity<InvoiceResponseDto> addInvoice(
-            @RequestBody InvoiceRequestDto invoiceRequestDto,
+           @Valid @RequestBody InvoiceRequestDto invoiceRequestDto,
             @AuthenticationPrincipal User user
     ) {
         InvoiceResponseDto response = invoiceService.createInvoice(invoiceRequestDto, user.getId());
@@ -67,7 +68,7 @@ public class InovicesController {
     @PutMapping("/invoices/{invoiceId}")
     public ResponseEntity<InvoiceResponseDto> updateInvoice(
             @PathVariable UUID invoiceId,
-            @RequestBody InvoiceRequestDto dto,
+            @Valid @RequestBody InvoiceRequestDto dto,
             @AuthenticationPrincipal User user
     ) {
         InvoiceResponseDto updated = invoiceService.updateInvoice(invoiceId, dto, user.getId());

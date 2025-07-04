@@ -3,6 +3,7 @@ package com.example.saas.subscriptions.controller;
 import com.example.saas.subscriptions.dto.IapVerificationRequest;
 import com.example.saas.subscriptions.services.SubscriptionService;
 import com.example.saas.user.entity.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +18,7 @@ public class SubscriptionController {
 
     @PostMapping("/verify")
     public ResponseEntity<?> verifyPurchase(
-            @RequestBody IapVerificationRequest request,
+            @Valid @RequestBody IapVerificationRequest request,
             @AuthenticationPrincipal User user
     ) {
         subscriptionService.activateSubscription(user.getId(), request);

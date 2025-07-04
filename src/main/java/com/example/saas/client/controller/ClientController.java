@@ -4,6 +4,7 @@ import com.example.saas.client.dto.ClientRequestDto;
 import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.service.ClientService;
 import com.example.saas.user.entity.User;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<ClientResponseDto> createClient(
-            @RequestBody ClientRequestDto clientRequest,
+            @Valid @RequestBody ClientRequestDto clientRequest,
             @AuthenticationPrincipal User user
     ) {
         ClientResponseDto client = clientService.createClient(clientRequest, user.getId());
@@ -47,7 +48,7 @@ public class ClientController {
     @PutMapping("/{clientId}")
     public ResponseEntity<ClientResponseDto> updateClient(
             @PathVariable UUID clientId,
-            @RequestBody ClientRequestDto clientRequest,
+            @Valid @RequestBody ClientRequestDto clientRequest,
             @AuthenticationPrincipal User user
     ) {
         ClientResponseDto updatedClient = clientService.updateClient(clientId, clientRequest, user.getId());

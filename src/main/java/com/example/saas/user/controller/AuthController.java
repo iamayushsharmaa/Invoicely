@@ -23,7 +23,6 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
 
-
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
@@ -48,7 +47,7 @@ public class AuthController {
     }
 
     @PostMapping("/google")
-    public ResponseEntity<AuthenticationResponse> googleSignIn(@RequestBody GoogleSignInRequest request) {
+    public ResponseEntity<AuthenticationResponse> googleSignIn(@Valid @RequestBody GoogleSignInRequest request) {
         try {
             AuthenticationResponse jwt = googleAuthService.verifyTokenAndLogin(request.getToken());
             return ResponseEntity.ok(jwt);
@@ -63,7 +62,7 @@ public class AuthController {
     }
 
     @PostMapping("/forget-password")
-    public ResponseEntity<String> forgetPassoword(@RequestBody ForgetPasswordRequest request) {
+    public ResponseEntity<String> forgetPassoword(@Valid @RequestBody ForgetPasswordRequest request) {
         try {
             forgetPasswordService.initiateReset(request.getEmail());
             return ResponseEntity.ok("Password reset link sent to email.");
@@ -83,7 +82,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenRequest request) {
         try {
             RefreshToken refreshToken = refreshTokenService.findByToken(request.getRefreshToken())
                     .orElseThrow(() -> new RuntimeException("Invalid refresh token"));

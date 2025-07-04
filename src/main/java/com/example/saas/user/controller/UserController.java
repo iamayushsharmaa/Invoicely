@@ -5,6 +5,7 @@ import com.example.saas.user.dto.UpdateProfileRequest;
 import com.example.saas.user.dto.UserProfileResponse;
 import com.example.saas.user.entity.User;
 import com.example.saas.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,7 +31,7 @@ public class UserController {
 
     @PutMapping("/profile")
     public ResponseEntity<UserProfileResponse> updateProfile(
-            @RequestBody UpdateProfileRequest request,
+            @Valid @RequestBody UpdateProfileRequest request,
             @AuthenticationPrincipal User user
     ) {
         try {
@@ -43,7 +44,7 @@ public class UserController {
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(
-            @RequestBody ChangePasswordRequest request,
+            @Valid @RequestBody ChangePasswordRequest request,
             @AuthenticationPrincipal User user
     ) {
         try {
