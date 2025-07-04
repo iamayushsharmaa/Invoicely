@@ -5,7 +5,7 @@ import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.mapper.ClientMapper;
 import com.example.saas.client.models.Client;
 import com.example.saas.client.repository.ClientRepository;
-import com.example.saas.common.exception.NotFoundException;
+import com.example.saas.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

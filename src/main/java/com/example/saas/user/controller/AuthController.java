@@ -6,6 +6,7 @@ import com.example.saas.user.entity.User;
 import com.example.saas.user.repository.PasswordResetTokenRepository;
 import com.example.saas.user.service.*;
 import com.google.api.client.auth.oauth2.RefreshTokenRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,7 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
         try {
             AuthenticationResponse response = service.register(request);
             return ResponseEntity.ok(response);
@@ -35,7 +36,7 @@ public class AuthController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(
-            @RequestBody AuthenticationRequest request
+            @Valid @RequestBody AuthenticationRequest request
     ) {
         try {
             AuthenticationResponse response = service.authenticate(request);

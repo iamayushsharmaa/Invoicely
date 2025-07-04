@@ -1,4 +1,4 @@
-package com.example.saas.common.exception;
+package com.example.saas.exception;
 
 
 public class NotFoundException extends RuntimeException {

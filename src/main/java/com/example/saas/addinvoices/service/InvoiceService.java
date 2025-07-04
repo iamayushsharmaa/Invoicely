@@ -8,12 +8,11 @@ import com.example.saas.addinvoices.models.InvoiceItem;
 import com.example.saas.addinvoices.repository.InvoiceRepository;
 import com.example.saas.client.models.Client;
 import com.example.saas.client.repository.ClientRepository;
-import com.example.saas.common.exception.NotFoundException;
+import com.example.saas.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
