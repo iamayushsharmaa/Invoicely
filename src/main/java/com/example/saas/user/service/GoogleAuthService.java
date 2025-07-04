@@ -1,5 +1,6 @@
 package com.example.saas.user.service;
 
+import com.example.saas.user.dto.AuthenticationResponse;
 import com.example.saas.user.entity.User;
 import com.example.saas.user.repository.UserRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -8,7 +9,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +19,13 @@ public class GoogleAuthService {
 
     private final UserRepository repository;
     private final JwtService jwtService;
+    private final RefreshTokenService refreshTokenService;
+
 
     @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String googleClientId;
 
-    public String verifyTokenAndLogin(String idTokenString) throws Exception {
+    public AuthenticationResponse verifyTokenAndLogin(String idTokenString) throws Exception {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
                 .Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance())
                 .setAudience(List.of(googleClientId))
@@ -48,12 +50,12 @@ public class GoogleAuthService {
                     return repository.save(newUser);
                 }
         );
+        String accessToken = jwtService.generateAccessToken(user);
+        var refreshToken = refreshTokenService.createRefreshToken(user);
 
-        return jwtService.generateToken(
-                new org.springframework.security.core.userdetails.User(
-                        user.getEmail(), "", List.of(new SimpleGrantedAuthority(user.getName()))
-                )
-        );
-
+        return AuthenticationResponse.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken.getToken())
+                .build();
     }
 }

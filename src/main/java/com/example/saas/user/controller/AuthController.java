@@ -1,10 +1,11 @@
 package com.example.saas.user.controller;
 
 import com.example.saas.user.dto.*;
+import com.example.saas.user.entity.RefreshToken;
+import com.example.saas.user.entity.User;
 import com.example.saas.user.repository.PasswordResetTokenRepository;
-import com.example.saas.user.service.AuthenticationService;
-import com.example.saas.user.service.ForgetPasswordService;
-import com.example.saas.user.service.GoogleAuthService;
+import com.example.saas.user.service.*;
+import com.google.api.client.auth.oauth2.RefreshTokenRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class AuthController {
     private final AuthenticationService service;
     private final GoogleAuthService googleAuthService;
     private final ForgetPasswordService forgetPasswordService;
+    private final RefreshTokenService refreshTokenService;
+    private final JwtService jwtService;
+
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -45,11 +49,14 @@ public class AuthController {
     @PostMapping("/google")
     public ResponseEntity<AuthenticationResponse> googleSignIn(@RequestBody GoogleSignInRequest request) {
         try {
-            String jwt = googleAuthService.verifyTokenAndLogin(request.getToken());
-            return ResponseEntity.ok(new AuthenticationResponse(jwt));
+            AuthenticationResponse jwt = googleAuthService.verifyTokenAndLogin(request.getToken());
+            return ResponseEntity.ok(jwt);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
-                    new AuthenticationResponse("Invalid Google token")
+                    AuthenticationResponse.builder()
+                            .accessToken(null)
+                            .refreshToken(null)
+                            .build()
             );
         }
     }
@@ -71,6 +78,20 @@ public class AuthController {
             return ResponseEntity.ok("Password successfully reset.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<?> refreshToken(@RequestBody RefreshTokenRequest request) {
+        try {
+            RefreshToken refreshToken = refreshTokenService.findByToken(request.getRefreshToken())
+                    .orElseThrow(() -> new RuntimeException("Invalid refresh token"));
+            refreshTokenService.verifyExpiration(refreshToken);
+            User user = refreshToken.getUser();
+            String newAccessToken = jwtService.generateAccessToken(user);
+            return ResponseEntity.ok(new AuthenticationResponse(newAccessToken, refreshToken.getToken()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 
