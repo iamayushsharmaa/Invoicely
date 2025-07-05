@@ -1,10 +1,10 @@
-package com.example.saas.addinvoices.mappers;
+package com.example.saas.invoices.mappers;
 
-import com.example.saas.addinvoices.dto.InvoiceItemResponseDto;
-import com.example.saas.addinvoices.dto.InvoiceRequestDto;
-import com.example.saas.addinvoices.dto.InvoiceResponseDto;
-import com.example.saas.addinvoices.models.Invoice;
-import com.example.saas.addinvoices.models.InvoiceItem;
+import com.example.saas.invoices.dto.InvoiceItemResponseDto;
+import com.example.saas.invoices.dto.InvoiceRequestDto;
+import com.example.saas.invoices.dto.InvoiceResponseDto;
+import com.example.saas.invoices.models.Invoice;
+import com.example.saas.invoices.models.InvoiceItem;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;

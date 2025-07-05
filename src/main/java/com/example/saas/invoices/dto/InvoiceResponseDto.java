@@ -1,4 +1,4 @@
-package com.example.saas.addinvoices.dto;
+package com.example.saas.invoices.dto;
 
 import lombok.Builder;
 import lombok.Data;

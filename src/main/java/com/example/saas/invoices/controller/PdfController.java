@@ -1,10 +1,9 @@
-package com.example.saas.addinvoices.controller;
+package com.example.saas.invoices.controller;
 
-import com.example.saas.addinvoices.dto.InvoiceResponseDto;
-import com.example.saas.addinvoices.service.InvoiceService;
-import com.example.saas.addinvoices.service.PdfService;
+import com.example.saas.invoices.dto.InvoiceResponseDto;
+import com.example.saas.invoices.service.InvoiceService;
+import com.example.saas.invoices.service.PdfService;
 import com.example.saas.user.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

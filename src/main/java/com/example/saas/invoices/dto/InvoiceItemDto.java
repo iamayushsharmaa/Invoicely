@@ -1,4 +1,4 @@
-package com.example.saas.addinvoices.dto;
+package com.example.saas.invoices.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

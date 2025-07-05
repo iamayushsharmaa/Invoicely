@@ -1,6 +1,6 @@
 package com.example.saas.user.service;
 
-import com.example.saas.addinvoices.repository.InvoiceRepository;
+import com.example.saas.invoices.repository.InvoiceRepository;
 import com.example.saas.client.repository.ClientRepository;
 import com.example.saas.exception.NotFoundException;
 import com.example.saas.user.dto.ChangePasswordRequest;

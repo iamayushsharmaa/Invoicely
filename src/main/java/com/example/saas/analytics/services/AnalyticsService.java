@@ -1,6 +1,6 @@
 package com.example.saas.analytics.services;
 
-import com.example.saas.addinvoices.models.Invoice;
+import com.example.saas.invoices.models.Invoice;
 import com.example.saas.analytics.dto.DashboardOverviewDto;
 import com.example.saas.analytics.dto.TimeRevenueDto;
 import com.example.saas.analytics.repository.AnalyticsRepository;

@@ -1,6 +1,6 @@
-package com.example.saas.addinvoices.service;
+package com.example.saas.invoices.service;
 
-import com.example.saas.addinvoices.dto.InvoiceResponseDto;
+import com.example.saas.invoices.dto.InvoiceResponseDto;
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

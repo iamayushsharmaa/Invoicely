@@ -1,22 +1,27 @@
-package com.example.saas.addinvoices.service;
+package com.example.saas.invoices.service;
 
-import com.example.saas.addinvoices.dto.InvoiceRequestDto;
-import com.example.saas.addinvoices.dto.InvoiceResponseDto;
-import com.example.saas.addinvoices.mappers.InvoiceMapper;
-import com.example.saas.addinvoices.models.Invoice;
-import com.example.saas.addinvoices.models.InvoiceItem;
-import com.example.saas.addinvoices.repository.InvoiceRepository;
+import com.example.saas.invoices.dto.InvoiceRequestDto;
+import com.example.saas.invoices.dto.InvoiceResponseDto;
+import com.example.saas.invoices.mappers.InvoiceMapper;
+import com.example.saas.invoices.models.Invoice;
+import com.example.saas.invoices.models.InvoiceItem;
+import com.example.saas.invoices.repository.InvoiceRepository;
 import com.example.saas.client.models.Client;
 import com.example.saas.client.repository.ClientRepository;
 import com.example.saas.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class InvoiceService {
@@ -48,6 +53,13 @@ public class InvoiceService {
         Invoice invoice = invoiceMapper.toEntity(invoiceRequestDto, userId, client.getId());
         invoice = invoiceRepository.save(invoice);
         return invoiceMapper.toResponseDto(invoice);
+    }
+
+    public Page<InvoiceResponseDto> searchInvoices(UUID userId, String invoiceNumber, String clientName, int page, int size) {
+        Pageable pageable = (Pageable) PageRequest.of(page, size);
+        Page<Invoice> invoicePage = invoiceRepository.searchInvoices(userId, invoiceNumber, clientName, pageable);
+
+        return invoicePage.map(invoiceMapper::toResponseDto);
     }
 
     public List<InvoiceResponseDto> getInvoicesByUser(UUID userId) {

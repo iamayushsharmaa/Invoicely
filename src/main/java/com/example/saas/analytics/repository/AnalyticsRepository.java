@@ -1,7 +1,6 @@
 package com.example.saas.analytics.repository;
 
-import com.example.saas.addinvoices.models.Invoice;
-import com.example.saas.analytics.dto.TimeRevenueDto;
+import com.example.saas.invoices.models.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

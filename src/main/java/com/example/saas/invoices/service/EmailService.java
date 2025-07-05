@@ -1,9 +1,8 @@
-package com.example.saas.addinvoices.service;
+package com.example.saas.invoices.service;
 
 import com.example.saas.user.entity.User;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;

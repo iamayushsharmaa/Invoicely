@@ -1,4 +1,4 @@
-package com.example.saas.addinvoices.dto;
+package com.example.saas.invoices.dto;
 
 import com.example.saas.client.dto.ClientRequestDto;
 import jakarta.validation.Valid;
@@ -6,11 +6,8 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.processing.Pattern;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

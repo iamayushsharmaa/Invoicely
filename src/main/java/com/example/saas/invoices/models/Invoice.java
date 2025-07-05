@@ -1,4 +1,4 @@
-package com.example.saas.addinvoices.models;
+package com.example.saas.invoices.models;
 
 import jakarta.persistence.*;
 import lombok.*;

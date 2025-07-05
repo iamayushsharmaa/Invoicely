@@ -1,13 +1,12 @@
-package com.example.saas.addinvoices.controller;
+package com.example.saas.invoices.controller;
 
-import com.example.saas.addinvoices.dto.InvoiceResponseDto;
-import com.example.saas.addinvoices.service.EmailService;
-import com.example.saas.addinvoices.service.InvoiceService;
-import com.example.saas.addinvoices.service.PdfService;
+import com.example.saas.invoices.dto.InvoiceResponseDto;
+import com.example.saas.invoices.service.EmailService;
+import com.example.saas.invoices.service.InvoiceService;
+import com.example.saas.invoices.service.PdfService;
 import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.service.ClientService;
 import com.example.saas.user.entity.User;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
