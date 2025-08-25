@@ -102,5 +102,4 @@ public class InovicesController {
         InvoiceResponseDto updatedInvoice = invoiceService.markAsPaid(invoiceId, user.getId());
         return ResponseEntity.ok(updatedInvoice);
     }
-
 }

@@ -3,6 +3,8 @@ package com.example.saas.client.controller;
 import com.example.saas.client.dto.ClientRequestDto;
 import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.service.ClientService;
+import com.example.saas.invoices.dto.InvoiceResponseDto;
+import com.example.saas.invoices.service.InvoiceService;
 import com.example.saas.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ import java.util.UUID;
 public class ClientController {
 
     private final ClientService clientService;
+    private final InvoiceService invoiceService;
 
     @PostMapping
     public ResponseEntity<ClientResponseDto> createClient(
@@ -36,13 +39,13 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/{clientId}")
-    public ResponseEntity<ClientResponseDto> fetchClientById(
+    @GetMapping("/invoices/client/{clientId}")
+    public ResponseEntity<List<InvoiceResponseDto>> getInvoicesByClient(
             @PathVariable UUID clientId,
             @AuthenticationPrincipal User user
     ) {
-        ClientResponseDto client = clientService.getClientById(clientId, user.getId());
-        return ResponseEntity.ok(client);
+        List<InvoiceResponseDto> invoices = invoiceService.getInvoicesByClient(clientId, user.getId());
+        return ResponseEntity.ok(invoices);
     }
 
     @PutMapping("/{clientId}")
@@ -54,4 +57,14 @@ public class ClientController {
         ClientResponseDto updatedClient = clientService.updateClient(clientId, clientRequest, user.getId());
         return ResponseEntity.ok(updatedClient);
     }
+
+    @DeleteMapping("/{clientId}")
+    public ResponseEntity<Void> deleteClient(
+            @PathVariable UUID clientId,
+            @AuthenticationPrincipal User user
+    ) {
+        clientService.deleteClient(clientId, user.getId());
+        return ResponseEntity.noContent().build();
+    }
+
 }
