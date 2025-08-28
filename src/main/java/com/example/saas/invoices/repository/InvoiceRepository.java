@@ -6,30 +6,30 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
-    List<Invoice> findAllByUserId(UUID userId);
 
-    List<Invoice> findByClientIdAndUserId(UUID clientId, UUID userId);
+    List<Invoice> findAllByUser_Id(UUID userId);
 
-    Optional<Invoice> findByIdAndUserId(UUID invoiceId, UUID userId);
+    List<Invoice> findByClient_IdAndUser_Id(UUID clientId, UUID userId);
 
-    void deleteAllByUserId(UUID userId);
+    Optional<Invoice> findByIdAndUser_Id(UUID invoiceId, UUID userId);
+
+    void deleteAllByUser_Id(UUID userId);
 
     @Query("""
-                SELECT i FROM Invoice i
-                JOIN i.client c
-                WHERE i.user.id = :userId
-                AND (:invoiceNumber IS NULL OR i.invoiceNumber LIKE %:invoiceNumber%)
-                AND (:clientName IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :clientName, '%')))
-            """)
+        SELECT i FROM Invoice i
+        JOIN i.client c
+        WHERE i.user.id = :userId
+        AND (:invoiceNumber IS NULL OR i.invoiceNumber LIKE %:invoiceNumber%)
+        AND (:clientName IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :clientName, '%')))
+    """)
     Page<Invoice> searchInvoices(
             @Param("userId") UUID userId,
             @Param("invoiceNumber") String invoiceNumber,

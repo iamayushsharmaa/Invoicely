@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class GoogleAuthService {
     private final RefreshTokenService refreshTokenService;
 
 
-    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    @Value("${GOOGLE_ID}")
     private String googleClientId;
 
     public AuthenticationResponse verifyTokenAndLogin(String idTokenString) throws Exception {
@@ -44,6 +45,7 @@ public class GoogleAuthService {
         User user = repository.findByEmail(name).orElseGet(
                 () -> {
                     User newUser = User.builder()
+                            .id(UUID.randomUUID())
                             .email(email)
                             .password("")
                             .build();

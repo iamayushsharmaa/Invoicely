@@ -28,7 +28,7 @@ public class InovicesController {
             @Valid @RequestBody InvoiceRequestDto invoiceRequestDto,
             @AuthenticationPrincipal User user
     ) {
-        InvoiceResponseDto response = invoiceService.createInvoice(invoiceRequestDto, user.getId());
+        InvoiceResponseDto response = invoiceService.createInvoice(invoiceRequestDto, user);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

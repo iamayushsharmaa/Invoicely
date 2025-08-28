@@ -3,6 +3,7 @@ package com.example.saas.client.mapper;
 import com.example.saas.client.dto.ClientRequestDto;
 import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.models.Client;
+import com.example.saas.user.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -11,9 +12,9 @@ import java.util.UUID;
 @Component
 public class ClientMapper {
 
-    public Client toEntity(ClientRequestDto dto, UUID userId) {
+    public Client toEntity(ClientRequestDto dto, User user) {
         return Client.builder()
-                .userId(userId)
+                .user(user)
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .phone(dto.getPhone())

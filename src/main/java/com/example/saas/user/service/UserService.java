@@ -24,8 +24,8 @@ public class UserService {
     private final ClientRepository clientRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserProfileResponse updateProfile(UUID userId, UpdateProfileRequest request) {
-        User user = userRepository.findById(userId)
+    public UserProfileResponse updateProfile(UUID id, UpdateProfileRequest request) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         user.setName(request.getName());
@@ -43,8 +43,8 @@ public class UserService {
                 .build();
     }
 
-    public UserProfileResponse getProfile(UUID userId) {
-        User user = userRepository.findById(userId)
+    public UserProfileResponse getProfile(UUID id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         return UserProfileResponse.builder()
@@ -56,8 +56,8 @@ public class UserService {
                 .build();
     }
 
-    public void changePassword(UUID userId, ChangePasswordRequest request) {
-        User user = userRepository.findById(userId)
+    public void changePassword(UUID id, ChangePasswordRequest request) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
@@ -69,10 +69,10 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteAccount(UUID userId) {
-        invoiceRepository.deleteAllByUserId(userId);
-        clientRepository.deleteAllByUserId(userId);
+    public void deleteAccount(UUID id) {
+        invoiceRepository.deleteAllByUser_Id(id);
+        clientRepository.deleteById(id);
 
-        userRepository.deleteById(userId);
+        userRepository.deleteById(id);
     }
 }

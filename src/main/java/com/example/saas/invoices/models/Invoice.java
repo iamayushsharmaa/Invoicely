@@ -1,5 +1,7 @@
 package com.example.saas.invoices.models;
 
+import com.example.saas.client.models.Client;
+import com.example.saas.user.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,11 +23,13 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    private User user;
 
-    @Column(nullable = false)
-    private UUID clientId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false, insertable = false, updatable = false)
+    private Client client;
 
     @Column(nullable = false, unique = true)
     private String invoiceNumber;

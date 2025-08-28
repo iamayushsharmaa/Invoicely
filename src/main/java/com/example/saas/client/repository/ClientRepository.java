@@ -7,14 +7,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
 @Repository
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
-    List<Client> findAllByUserId(UUID userId);
+    List<Client> findAllByUser_Id(UUID userId);
 
-    Optional<Client> findByIdAndUserId(UUID clientId, UUID userId);
+    Optional<Client> findByIdAndUser_Id(UUID clientId, UUID userId);
 
-    void deleteAllByUserId(UUID userId);
-
+    void deleteAllByUser_Id(UUID userId);
 }

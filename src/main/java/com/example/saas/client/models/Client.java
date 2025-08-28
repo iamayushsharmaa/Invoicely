@@ -1,5 +1,6 @@
 package com.example.saas.client.models;
 
+import com.example.saas.user.entity.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,8 +24,10 @@ public class Client {
     @Column(name = "id", columnDefinition = "UUID", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "user_id", columnDefinition = "UUID", nullable = false)
-    private UUID userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
 
     private String name;
     private String email;

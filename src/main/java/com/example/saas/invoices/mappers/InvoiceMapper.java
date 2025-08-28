@@ -1,10 +1,12 @@
 package com.example.saas.invoices.mappers;
 
+import com.example.saas.client.models.Client;
 import com.example.saas.invoices.dto.InvoiceItemResponseDto;
 import com.example.saas.invoices.dto.InvoiceRequestDto;
 import com.example.saas.invoices.dto.InvoiceResponseDto;
 import com.example.saas.invoices.models.Invoice;
 import com.example.saas.invoices.models.InvoiceItem;
+import com.example.saas.user.entity.User;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,11 +14,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
 @Component
 public class InvoiceMapper {
 
-    public Invoice toEntity(InvoiceRequestDto dto, UUID userId, UUID clientId) {
+    public Invoice toEntity(InvoiceRequestDto dto, User user, Client client) {
         List<InvoiceItem> items = dto.getItems().stream()
                 .map(itemDto -> {
                     BigDecimal total = itemDto.getPrice().multiply(BigDecimal.valueOf(itemDto.getQuantity()));
@@ -38,8 +39,8 @@ public class InvoiceMapper {
         BigDecimal totalAmount = subTotal.subtract(discount).add(tax);
 
         Invoice invoice = Invoice.builder()
-                .userId(userId)
-                .clientId(clientId)
+                .user(user)                // ✅ Set User entity
+                .client(client)            // ✅ Set Client entity
                 .invoiceNumber(dto.getInvoiceNumber())
                 .invoiceDate(dto.getInvoiceDate())
                 .dueDate(dto.getDueDate())
@@ -75,7 +76,7 @@ public class InvoiceMapper {
 
         return InvoiceResponseDto.builder()
                 .id(invoice.getId())
-                .clientId(invoice.getClientId())
+                .clientId(invoice.getClient().getId())   // ✅ Now from Client entity
                 .invoiceNumber(invoice.getInvoiceNumber())
                 .invoiceDate(invoice.getInvoiceDate())
                 .dueDate(invoice.getDueDate())

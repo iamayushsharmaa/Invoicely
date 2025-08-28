@@ -21,8 +21,8 @@ public class AnalyticsService {
     private final AnalyticsRepository analyticsRepository;
 
     public DashboardOverviewDto getOverview(UUID userId) {
-        long total = analyticsRepository.countByUserId(userId);
-        long paid = analyticsRepository.countByUserIdAndStatus(userId, "PAID");
+        long total = analyticsRepository.countByUser_Id(userId);
+        long paid = analyticsRepository.countByUser_IdAndStatus(userId, "PAID");
         long unpaid = total - paid;
         BigDecimal revenue = analyticsRepository.getTotalRevenue(userId);
         LocalDate lastDate = analyticsRepository.getLastInvoiceDate(userId);
@@ -54,7 +54,7 @@ public class AnalyticsService {
         LocalDate today = LocalDate.now();
         LocalDate start = today.minusDays(6);
 
-        List<Invoice> invoices = analyticsRepository.findByUserIdAndInvoiceDateBetween(userId, start, today);
+        List<Invoice> invoices = analyticsRepository.findByUser_IdAndInvoiceDateBetween(userId, start, today);
 
         Map<LocalDate, BigDecimal> revenueMap = invoices.stream()
                 .collect(Collectors.groupingBy(
@@ -72,7 +72,7 @@ public class AnalyticsService {
         LocalDate start = LocalDate.of(year, month, 1);
         LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
 
-        List<Invoice> invoices = analyticsRepository.findByUserIdAndInvoiceDateBetween(userId, start, end);
+        List<Invoice> invoices = analyticsRepository.findByUser_IdAndInvoiceDateBetween(userId, start, end);
 
         Map<Integer, BigDecimal> revenueMap = invoices.stream()
                 .collect(Collectors.groupingBy(
@@ -91,7 +91,7 @@ public class AnalyticsService {
         LocalDate start = LocalDate.of(year, 1, 1);
         LocalDate end = LocalDate.of(year, 12, 31);
 
-        List<Invoice> invoices = analyticsRepository.findByUserIdAndInvoiceDateBetween(userId, start, end);
+        List<Invoice> invoices = analyticsRepository.findByUser_IdAndInvoiceDateBetween(userId, start, end);
 
         Map<Month, BigDecimal> revenueMap = invoices.stream()
                 .collect(Collectors.groupingBy(

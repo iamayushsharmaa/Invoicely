@@ -29,7 +29,7 @@ public class ClientController {
             @Valid @RequestBody ClientRequestDto clientRequest,
             @AuthenticationPrincipal User user
     ) {
-        ClientResponseDto client = clientService.createClient(clientRequest, user.getId());
+        ClientResponseDto client = clientService.createClient(clientRequest, user);
         return new ResponseEntity<>(client, HttpStatus.CREATED);
     }
 
