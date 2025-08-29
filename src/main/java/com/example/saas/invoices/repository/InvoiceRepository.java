@@ -1,8 +1,10 @@
 package com.example.saas.invoices.repository;
 
 import com.example.saas.invoices.models.Invoice;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -23,13 +25,18 @@ public interface InvoiceRepository extends JpaRepository<Invoice, UUID> {
 
     void deleteAllByUser_Id(UUID userId);
 
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Invoice i WHERE i.client.id = :clientId AND i.user.id = :userId")
+    void deleteByClientIdAndUserId(@Param("clientId") UUID clientId, @Param("userId") UUID userId);
+
     @Query("""
-        SELECT i FROM Invoice i
-        JOIN i.client c
-        WHERE i.user.id = :userId
-        AND (:invoiceNumber IS NULL OR i.invoiceNumber LIKE %:invoiceNumber%)
-        AND (:clientName IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :clientName, '%')))
-    """)
+                SELECT i FROM Invoice i
+                JOIN i.client c
+                WHERE i.user.id = :userId
+                AND (:invoiceNumber IS NULL OR i.invoiceNumber LIKE %:invoiceNumber%)
+                AND (:clientName IS NULL OR LOWER(c.name) LIKE LOWER(CONCAT('%', :clientName, '%')))
+            """)
     Page<Invoice> searchInvoices(
             @Param("userId") UUID userId,
             @Param("invoiceNumber") String invoiceNumber,

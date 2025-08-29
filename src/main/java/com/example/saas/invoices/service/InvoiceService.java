@@ -10,6 +10,7 @@ import com.example.saas.client.models.Client;
 import com.example.saas.client.repository.ClientRepository;
 import com.example.saas.exception.NotFoundException;
 import com.example.saas.user.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
