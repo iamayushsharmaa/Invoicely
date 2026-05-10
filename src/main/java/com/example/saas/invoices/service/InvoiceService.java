@@ -8,9 +8,8 @@ import com.example.saas.invoices.models.InvoiceItem;
 import com.example.saas.invoices.repository.InvoiceRepository;
 import com.example.saas.client.models.Client;
 import com.example.saas.client.repository.ClientRepository;
-import com.example.saas.exception.NotFoundException;
+import com.example.saas.exception.ResourceNotFoundException;
 import com.example.saas.user.entity.User;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -36,7 +35,7 @@ public class InvoiceService {
         // ✅ Fetch existing client or create a new one
         if (invoiceRequestDto.getClientId() != null) {
             client = clientRepository.findByIdAndUser_Id(invoiceRequestDto.getClientId(), user.getId())
-                    .orElseThrow(() -> new NotFoundException("Client not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
         } else if (invoiceRequestDto.getClient() != null) {
             client = clientRepository.save(Client.builder()
                     .name(invoiceRequestDto.getClient().getName())
@@ -76,19 +75,19 @@ public class InvoiceService {
 
     public InvoiceResponseDto getInvoiceById(UUID invoiceId, UUID userId) {
         Invoice invoice = invoiceRepository.findByIdAndUser_Id(invoiceId, userId)
-                .orElseThrow(() -> new NotFoundException("Invoice not found or unauthorized"));
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found or unauthorized"));
         return invoiceMapper.toResponseDto(invoice);
     }
 
     public void deleteInvoice(UUID invoiceId, UUID userId) {
         Invoice invoice = invoiceRepository.findByIdAndUser_Id(invoiceId, userId)
-                .orElseThrow(() -> new NotFoundException("Invoice not found or unauthorized"));
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found or unauthorized"));
         invoiceRepository.delete(invoice);
     }
 
     public InvoiceResponseDto updateInvoice(UUID invoiceId, InvoiceRequestDto dto, UUID userId) {
         Invoice invoice = invoiceRepository.findByIdAndUser_Id(invoiceId, userId)
-                .orElseThrow(() -> new NotFoundException("Invoice not found or unauthorized"));
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found or unauthorized"));
 
         // ✅ Update fields
         invoice.setInvoiceNumber(dto.getInvoiceNumber());
@@ -129,7 +128,7 @@ public class InvoiceService {
 
     public InvoiceResponseDto markAsPaid(UUID invoiceId, UUID userId) {
         Invoice invoice = invoiceRepository.findByIdAndUser_Id(invoiceId, userId)
-                .orElseThrow(() -> new NotFoundException("Invoice not found or unauthorized"));
+                .orElseThrow(() -> new ResourceNotFoundException("Invoice not found or unauthorized"));
 
         if (Boolean.TRUE.equals(invoice.getPaid())) {
             throw new IllegalStateException("Invoice is already marked as paid.");

@@ -3,8 +3,6 @@ package com.example.saas.client.controller;
 import com.example.saas.client.dto.ClientRequestDto;
 import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.service.ClientService;
-import com.example.saas.invoices.dto.InvoiceResponseDto;
-import com.example.saas.invoices.service.InvoiceService;
 import com.example.saas.user.entity.User;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,7 @@ import java.util.UUID;
 public class ClientController {
 
     private final ClientService clientService;
-    private final InvoiceService invoiceService;
+//    private final InvoiceService invoiceService;
 
     @PostMapping
     public ResponseEntity<ClientResponseDto> createClient(
@@ -39,14 +37,14 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/invoices/client/{clientId}")
-    public ResponseEntity<List<InvoiceResponseDto>> getInvoicesByClient(
-            @PathVariable UUID clientId,
-            @AuthenticationPrincipal User user
-    ) {
-        List<InvoiceResponseDto> invoices = invoiceService.getInvoicesByClient(clientId, user.getId());
-        return ResponseEntity.ok(invoices);
-    }
+//    @GetMapping("/invoices/client/{clientId}")
+//    public ResponseEntity<List<InvoiceResponseDto>> getInvoicesByClient(
+//            @PathVariable UUID clientId,
+//            @AuthenticationPrincipal User user
+//    ) {
+//        List<InvoiceResponseDto> invoices = invoiceService.getInvoicesByClient(clientId, user.getId());
+//        return ResponseEntity.ok(invoices);
+//    }
 
     @PutMapping("/{clientId}")
     public ResponseEntity<ClientResponseDto> updateClient(

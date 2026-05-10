@@ -2,7 +2,7 @@ package com.example.saas.user.service;
 
 import com.example.saas.invoices.repository.InvoiceRepository;
 import com.example.saas.client.repository.ClientRepository;
-import com.example.saas.exception.NotFoundException;
+import com.example.saas.exception.ResourceNotFoundException;
 import com.example.saas.user.dto.ChangePasswordRequest;
 import com.example.saas.user.dto.UpdateProfileRequest;
 import com.example.saas.user.dto.UserProfileResponse;
@@ -26,7 +26,7 @@ public class UserService {
 
     public UserProfileResponse updateProfile(UUID id, UpdateProfileRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         user.setName(request.getName());
         user.setPhone(request.getPhone());
@@ -45,7 +45,7 @@ public class UserService {
 
     public UserProfileResponse getProfile(UUID id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
         return UserProfileResponse.builder()
                 .id(user.getId())

@@ -20,8 +20,9 @@ public class RefreshTokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final UserRepository userRepository;
 
-    @Value("${jwt.refresh-token.expiration-ms}")
-    private Long refreshTokenDurationMs;
+    //    @Value("${jwt.refresh-token.expiration-ms}")
+//    private long refreshTokenDurationMs;
+    private long refreshTokenDurationMs = 604800000;
 
     public RefreshToken createRefreshToken(User user) {
         RefreshToken refreshToken = new RefreshToken();
@@ -35,8 +36,8 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
-    public RefreshToken verifyExpiration(RefreshToken refreshToken){
-        if (refreshToken.getExpiryDate().isBefore(Instant.now())){
+    public RefreshToken verifyExpiration(RefreshToken refreshToken) {
+        if (refreshToken.getExpiryDate().isBefore(Instant.now())) {
             refreshTokenRepository.delete(refreshToken);
             throw new RuntimeException("Refresh token has expired");
         }

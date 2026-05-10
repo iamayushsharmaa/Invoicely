@@ -5,11 +5,11 @@ import com.example.saas.client.dto.ClientResponseDto;
 import com.example.saas.client.mapper.ClientMapper;
 import com.example.saas.client.models.Client;
 import com.example.saas.client.repository.ClientRepository;
-import com.example.saas.exception.NotFoundException;
 import com.example.saas.invoices.repository.InvoiceRepository;
 import com.example.saas.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,13 +38,13 @@ public class ClientService {
 
     public ClientResponseDto getClientById(UUID clientId, UUID userId) {
         Client client = clientRepository.findByIdAndUser_Id(clientId, userId)
-                .orElseThrow(() -> new NotFoundException("Client not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
         return clientMapper.toResponse(client);
     }
 
     public ClientResponseDto updateClient(UUID clientId, ClientRequestDto dto, UUID userId) {
         Client client = clientRepository.findByIdAndUser_Id(clientId, userId)
-                .orElseThrow(() -> new NotFoundException("Client not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
         clientMapper.updateEntity(client, dto);
         return clientMapper.toResponse(clientRepository.save(client));
     }
@@ -52,7 +52,7 @@ public class ClientService {
     @Transactional
     public void deleteClient(UUID clientId, UUID userId) {
         Client client = clientRepository.findByIdAndUser_Id(clientId, userId)
-                .orElseThrow(() -> new NotFoundException("Client not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
 
         invoiceRepository.deleteByClientIdAndUserId(clientId, userId);
         clientRepository.delete(client);
