@@ -22,6 +22,10 @@ public class AuthenticationService {
     private final RefreshTokenService refreshTokenService;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (repository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("User already exists with this email");
+        }
+
         var user = User.builder()
                 .name(request.getName())
                 .email(request.getEmail())

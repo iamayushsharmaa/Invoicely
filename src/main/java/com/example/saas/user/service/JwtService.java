@@ -20,11 +20,14 @@ public class JwtService {
 
     private static final String SECRET_KEY = "e3f1a7c9b4d6821f5e09c3d7a8b4f12c9e7d6a5b3c2f1e0d4b8a9c7d6e5f3a2b";
 
-    @Value("${jwt.access-token-expiration-ms:900000}")
-    private long accessTokenExpirationMs;
+//    @Value("${jwt.access-token-expiration-ms:900000}")
+//    private long accessTokenExpirationMs;
+//
+//    @Value("${jwt.refresh-token-expiration-ms:604800000}")
+//    private long refreshTokenExpirationMs;
 
-    @Value("${jwt.refresh-token-expiration-ms:604800000}")
-    private long refreshTokenExpirationMs;
+    private final long accessTokenExpirationMs = 900000;
+    private final long refreshTokenExpirationMs = 604800000;
 
     public String extractUserEmail(String token) {
         return extractClaims(token, Claims::getSubject);
@@ -49,6 +52,10 @@ public class JwtService {
     }
 
     public String generateAccessToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+
+        System.out.println("ACCESS EXP: " + accessTokenExpirationMs);
+
+
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -60,6 +67,8 @@ public class JwtService {
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
+
+        System.out.println("REFRESH EXP: " + refreshTokenExpirationMs);
         return Jwts
                 .builder()
                 .setSubject(userDetails.getUsername())
