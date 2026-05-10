@@ -1,25 +1,25 @@
-spring:
-  redis:
-    host: ${REDIS_HOST}
-    port: ${REDIS_PORT}
-    password: ${REDIS_PASSWORD}
-  application:
-    name: invoicely
-  cloud:
-    gateway:
-      routes:
-        - id: my-service
-          uri: https://invoicely-367c.onrender.com
-          predicates:
-            - Path=/api/**
-          filters:
-            - name: RequestRateLimiter
-              args:
-                redis-rate-limiter.replenishRate: 20
-                redis-rate-limiter.burstCapacity: 50
-                redis-rate-limiter.requestedTokens: 1
-                key-resolver: "#{@ipKeyResolver}"
-
-jwt:
-  access-token-expiration-ms: 900000
-  refresh-token-expiration-ms: 604800000
+#spring:
+#  redis:
+#    host: ${REDIS_HOST}
+#    port: ${REDIS_PORT}
+#    password: ${REDIS_PASSWORD}
+#  application:
+#    name: invoicely
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: my-service
+#          uri: https://invoicely-367c.onrender.com
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                redis-rate-limiter.replenishRate: 20
+#                redis-rate-limiter.burstCapacity: 50
+#                redis-rate-limiter.requestedTokens: 1
+#                key-resolver: "#{@ipKeyResolver}"
+#
+#jwt:
+#  access-token-expiration-ms: 900000
+#  refresh-token-expiration-ms: 604800000
